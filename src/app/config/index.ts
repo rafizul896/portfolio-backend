@@ -6,6 +6,7 @@ dotenv.config({ path: path.join(process.cwd(), ".env") });
 export default {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
+  DATABASE_URI: process.env.DATABASE_URI,
   BCRYPT_SALt_ROUNDS: process.env.BCRYPT_SALt_ROUNDS,
   JWT: {
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
@@ -20,4 +21,5 @@ export default {
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   },
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
 };
