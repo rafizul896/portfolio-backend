@@ -7,6 +7,7 @@ import { SkillRoutes } from "./app/modules/skill/skill.route";
 import { ExperienceRoutes } from "./app/modules/experiences/experience.route";
 import { ContactRoutes } from "./app/modules/contact/contact.route";
 import { BlogRoutes } from "./app/modules/blog/blog.route";
+import { ProjectRoutes } from "./app/modules/project/project.route";
 const app = express();
 
 // parsers
@@ -19,6 +20,7 @@ app.use("/skill", SkillRoutes);
 app.use("/experience", ExperienceRoutes);
 app.use("/contact", ContactRoutes);
 app.use("/blog", BlogRoutes);
+app.use("/project", ProjectRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({
