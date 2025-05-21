@@ -1,9 +1,9 @@
 import multer from "multer";
-import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
-import path from "path";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import config from "../config";
-import fs from "fs";
 import { IUploadedFile } from "../interfaces/file";
+import streamifier from "streamifier";
+
 
 cloudinary.config({
   cloud_name: config.CLOUDINARY.CLOUDINARY_CLOUD_NAME,
@@ -15,13 +15,11 @@ export const sendImageToCloudinary = async (
   file: IUploadedFile
 ): Promise<UploadApiResponse> => {
   return new Promise((resolve, reject) => {
-    const uploadResult = cloudinary.uploader.upload(
-      file.path,
+    const uploadStream = cloudinary.uploader.upload_stream(
       {
         public_id: file.originalname,
       },
       (error, result) => {
-        fs.unlinkSync(file.path);
         if (error) {
           reject(error);
         } else {
@@ -29,16 +27,11 @@ export const sendImageToCloudinary = async (
         }
       }
     );
+
+    streamifier.createReadStream(file.buffer).pipe(uploadStream);
   });
 };
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(process.cwd(), "/uploads/"));
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
+const storage = multer.memoryStorage();
 
 export const upload = multer({ storage: storage });

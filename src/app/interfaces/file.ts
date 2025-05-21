@@ -8,3 +8,7 @@ export interface IUploadedFile {
   path: string;
   size: number;
 }
+
+export interface IUploadedFile extends Express.Multer.File {
+  buffer: Buffer;
+}

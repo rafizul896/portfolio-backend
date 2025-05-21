@@ -8,11 +8,19 @@ import { ExperienceRoutes } from "./app/modules/experiences/experience.route";
 import { ContactRoutes } from "./app/modules/contact/contact.route";
 import { BlogRoutes } from "./app/modules/blog/blog.route";
 import { ProjectRoutes } from "./app/modules/project/project.route";
+import cors from "cors";
 const app = express();
 
 // parsers
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://localhost:3000"],
+    credentials: true,
+  })
+);
 
 // routes
 app.use("/auth", AuthRoutes);

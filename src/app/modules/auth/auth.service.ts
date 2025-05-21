@@ -5,6 +5,7 @@ import config from "../../config";
 import AppError from "../../errors/AppError";
 import { User } from "../user/user.model";
 import { createToken, verifyToken } from "./auth.utils";
+import { StringValue } from "ms";
 
 const loginUser = async (payload: any) => {
   // checking if the user is exist
@@ -32,13 +33,13 @@ const loginUser = async (payload: any) => {
   const accessToken = createToken(
     jwtPayload,
     config.JWT.JWT_ACCESS_SECRET as string,
-    config.JWT.JWT_ACCESS_EXPIRES_IN as string
+    config.JWT.JWT_ACCESS_EXPIRES_IN as StringValue
   );
 
   const refreshToken = createToken(
     jwtPayload,
     config.JWT.JWT_REFRESH_SECRET as string,
-    config.JWT.JWT_REFRESH_EXPIRES_IN as string
+    config.JWT.JWT_REFRESH_EXPIRES_IN as StringValue
   );
 
   return {
@@ -109,7 +110,7 @@ const refreshToken = async (token: string) => {
   const accessToken = createToken(
     jwtPayload,
     config.JWT.JWT_ACCESS_SECRET as string,
-    config.JWT.JWT_ACCESS_EXPIRES_IN as string
+    config.JWT.JWT_ACCESS_EXPIRES_IN as StringValue
   );
 
   return { accessToken };
