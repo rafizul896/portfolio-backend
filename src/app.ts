@@ -5,6 +5,7 @@ import { AuthRoutes } from "./app/modules/auth/auth.route";
 import cookieParser from "cookie-parser";
 import { SkillRoutes } from "./app/modules/skill/skill.route";
 import { ExperienceRoutes } from "./app/modules/experiences/experience.route";
+import { ContactRoutes } from "./app/modules/contact/contact.route";
 const app = express();
 
 // parsers
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use("/auth", AuthRoutes);
 app.use("/skill", SkillRoutes);
 app.use("/experience", ExperienceRoutes);
+app.use("/contact", ContactRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({
