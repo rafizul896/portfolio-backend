@@ -40,8 +40,7 @@ const getSingleExperienceFromDB = catchAsync(async (req, res) => {
 });
 
 const updateExperienceIntoDB = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const result = await ExperienceServices.updateExperienceInDB(id, req.body);
+  const result = await ExperienceServices.updateExperienceIntoDB(req);
 
   sendResponse(res, {
     statusCode: status.OK,

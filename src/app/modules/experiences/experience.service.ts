@@ -57,20 +57,26 @@ const getSingleExperienceFromDB = async (id: string) => {
   return experience;
 };
 
-const updateExperienceInDB = async (
-  id: string,
-  payload: Partial<IExperience>
-) => {
-  const updated = await Experience.findByIdAndUpdate(id, payload, {
-    new: true,
-    runValidators: true,
-  });
+const updateExperienceIntoDB = async (req: Request) => {
+  const file = req.file as IUploadedFile;
+  const updatedData = req.body as Partial<IExperience>;
+  const { id } = req.params;
 
-  if (!updated) {
-    throw new Error("Experience update failed or not found");
+  if (file) {
+    const uploadToCloudinary = await sendImageToCloudinary(file);
+    updatedData.companyLogo = uploadToCloudinary?.secure_url;
   }
 
-  return updated;
+  const updatedExperience = await Experience.findByIdAndUpdate(
+    id,
+    updatedData,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return updatedExperience;
 };
 
 const deleteExperienceFromDB = async (id: string) => {
@@ -87,6 +93,6 @@ export const ExperienceServices = {
   createExperienceIntoDB,
   getAllExperiencesFromDB,
   getSingleExperienceFromDB,
-  updateExperienceInDB,
+  updateExperienceIntoDB,
   deleteExperienceFromDB,
 };

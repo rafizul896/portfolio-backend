@@ -60,13 +60,24 @@ const getBlogBySlug = async (slug: string) => {
   return await Blog.findOne({ slug });
 };
 
-const updateBlog = async (id: string, payload: Partial<IBlog>) => {
-  const result = await Blog.findByIdAndUpdate(id, payload, {
+const updateBlog = async (req: Request) => {
+  const file = req.file as IUploadedFile;
+  const updatedData = req.body as Partial<IBlog>;
+  const { id } = req.params;
+
+  if (file) {
+    const uploadToCloudinary = await sendImageToCloudinary(file);
+    updatedData.thumbnail = uploadToCloudinary?.secure_url;
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(id, updatedData, {
     new: true,
     runValidators: true,
   });
-  return result;
+
+  return updatedBlog;
 };
+
 
 const deleteBlog = async (id: string) => {
   return await Blog.findByIdAndDelete(id);

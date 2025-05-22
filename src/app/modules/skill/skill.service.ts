@@ -59,8 +59,27 @@ const deleteSkillFromDB = async (id: string) => {
   return deletedSkill;
 };
 
+const updateSkillInDB = async (req: Request) => {
+  const file = req.file as IUploadedFile;
+  const updatedData = req.body;
+  const { id } = req.params;
+
+  if (file) {
+    const uploadToCloudinary = await sendImageToCloudinary(file);
+    updatedData.icon = uploadToCloudinary?.secure_url;
+  }
+
+  const updatedSkill = await Skill.findByIdAndUpdate(id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  return updatedSkill;
+};
+
 export const SkillServices = {
   createSkillIntoDB,
   getAllSkillFromDB,
   deleteSkillFromDB,
+  updateSkillInDB,
 };

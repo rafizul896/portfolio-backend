@@ -38,8 +38,20 @@ const deleteSkillFromDB = catchAsync(async (req, res) => {
   });
 });
 
+const updateSkillInDB = catchAsync(async (req, res) => {
+  const result = await SkillServices.updateSkillInDB(req);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Skill updated successfully",
+    data: result,
+  });
+});
+
 export const SkillControllers = {
   createSkillIntoDB,
   getAllSkillFromDB,
   deleteSkillFromDB,
+  updateSkillInDB,
 };

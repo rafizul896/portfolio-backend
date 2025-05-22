@@ -41,8 +41,22 @@ const getProjectById = async (id: string) => {
   return await Project.findById(id);
 };
 
-const updateProject = async (id: string, payload: Partial<IProject>) => {
-  return await Project.findByIdAndUpdate(id, payload, { new: true });
+const updateProject = async (req: Request) => {
+  const file = req.file as IUploadedFile;
+  const updatedData = req.body as Partial<IProject>;
+  const { id } = req.params;
+
+  if (file) {
+    const uploadToCloudinary = await sendImageToCloudinary(file);
+    updatedData.thumbnail = uploadToCloudinary?.secure_url;
+  }
+
+  const updatedProject = await Project.findByIdAndUpdate(id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  return updatedProject;
 };
 
 const deleteProject = async (id: string) => {

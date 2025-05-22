@@ -53,8 +53,7 @@ const getBlogBySlug = catchAsync(async (req, res) => {
 });
 
 const updateBlog = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const result = await BlogService.updateBlog(id, req.body);
+  const result = await BlogService.updateBlog(req);
 
   sendResponse(res, {
     statusCode: status.OK,

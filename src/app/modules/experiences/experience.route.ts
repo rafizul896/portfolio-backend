@@ -21,7 +21,18 @@ router.post(
 
 router.get("/", ExperienceControllers.getAllExperienceFromDB);
 router.get("/:id", ExperienceControllers.getSingleExperienceFromDB);
-router.patch("/:id", ExperienceControllers.updateExperienceIntoDB);
 router.delete("/:id", ExperienceControllers.deleteExperienceFromDB);
 
+router.patch(
+  "/:id",
+  auth(USER_ROLE.admin),
+  upload.single("file"),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = JSON.parse(req.body.data);
+
+      return ExperienceControllers.updateExperienceIntoDB(req, res, next);
+    }
+  }
+);
 export const ExperienceRoutes = router;

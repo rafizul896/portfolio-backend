@@ -21,7 +21,18 @@ router.post(
 
 router.get("/", ProjectControllers.getAllProjects);
 router.get("/:id", ProjectControllers.getProjectById);
-router.patch("/:id", auth(USER_ROLE.admin), ProjectControllers.updateProject);
 router.delete("/:id", auth(USER_ROLE.admin), ProjectControllers.deleteProject);
 
+router.patch(
+  "/:id",
+  auth(USER_ROLE.admin),
+  upload.single("file"),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = JSON.parse(req.body.data);
+
+      return ProjectControllers.updateProject(req, res, next);
+    }
+  }
+);
 export const ProjectRoutes = router;

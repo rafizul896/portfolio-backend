@@ -22,7 +22,19 @@ router.post(
 router.get("/", BlogController.getAllBlogs);
 router.get("/slug/:slug", BlogController.getBlogBySlug);
 router.get("/:id", BlogController.getBlogById);
-router.patch("/:id", BlogController.updateBlog);
 router.delete("/:id", BlogController.deleteBlog);
+
+router.patch(
+  "/:id",
+  auth(USER_ROLE.admin),
+  upload.single("file"),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = JSON.parse(req.body.data);
+
+      return BlogController.updateBlog(req, res, next);
+    }
+  }
+);
 
 export const BlogRoutes = router;
