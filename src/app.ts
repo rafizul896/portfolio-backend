@@ -9,6 +9,7 @@ import { ContactRoutes } from "./app/modules/contact/contact.route";
 import { BlogRoutes } from "./app/modules/blog/blog.route";
 import { ProjectRoutes } from "./app/modules/project/project.route";
 import cors from "cors";
+import { BlogController } from "./app/modules/blog/blog.controller";
 const app = express();
 
 // parsers
@@ -23,12 +24,13 @@ app.use(
 );
 
 // routes
-app.use("/auth", AuthRoutes);
-app.use("/skill", SkillRoutes);
-app.use("/experience", ExperienceRoutes);
-app.use("/contact", ContactRoutes);
-app.use("/blog", BlogRoutes);
-app.use("/project", ProjectRoutes);
+app.use("/api/auth", AuthRoutes);
+app.use("/api/skill", SkillRoutes);
+app.use("/api/experience", ExperienceRoutes);
+app.use("/api/contact", ContactRoutes);
+app.use("/api/blog", BlogRoutes);
+app.use("/api/project", ProjectRoutes);
+app.get("/api/dashboard-info", BlogController.dashboardHomeData);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({

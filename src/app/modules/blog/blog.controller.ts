@@ -3,7 +3,6 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 import { BlogService } from "./blog.service";
 
-
 const createBlog = catchAsync(async (req, res) => {
   const result = await BlogService.createBlog(req);
 
@@ -75,6 +74,17 @@ const deleteBlog = catchAsync(async (req, res) => {
   });
 });
 
+const dashboardHomeData = catchAsync(async (req, res) => {
+  const result = await BlogService.dashboardHomeData();
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Dashboard data is get successfully!",
+    data: result,
+  });
+});
+
 export const BlogController = {
   createBlog,
   getAllBlogs,
@@ -82,4 +92,5 @@ export const BlogController = {
   getBlogBySlug,
   updateBlog,
   deleteBlog,
+  dashboardHomeData,
 };

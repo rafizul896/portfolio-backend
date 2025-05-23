@@ -3,6 +3,10 @@ import { IBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 import { IUploadedFile } from "../../interfaces/file";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
+import { Project } from "../project/project.model";
+import { Skill } from "../skill/skill.model";
+import { Experience } from "../experiences/experience.model";
+import { Contact } from "../contact/contact.model";
 
 const createBlog = async (req: Request) => {
   const file = req.file as IUploadedFile;
@@ -78,10 +82,28 @@ const updateBlog = async (req: Request) => {
   return updatedBlog;
 };
 
-
 const deleteBlog = async (id: string) => {
   return await Blog.findByIdAndDelete(id);
 };
+
+const dashboardHomeData = async () => {
+  const [blogCount, projectCount, skillCount, experienceCount, contactCount] = await Promise.all([
+    Blog.countDocuments(),
+    Project.countDocuments(),
+    Skill.countDocuments(),
+    Experience.countDocuments(),
+    Contact.countDocuments(),
+  ]);
+
+  return {
+    blogCount,
+    projectCount,
+    skillCount,
+    experienceCount,
+    contactCount,
+  };
+};
+
 
 export const BlogService = {
   createBlog,
@@ -90,4 +112,5 @@ export const BlogService = {
   getBlogBySlug,
   updateBlog,
   deleteBlog,
+  dashboardHomeData,
 };
