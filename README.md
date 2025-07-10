@@ -4,6 +4,15 @@ This is the backend service for a developer's portfolio website. Built with **No
 
 ---
 
+## 🔗 Frontend Repository
+
+👉 [Click here to view the Frontend Repository](https://github.com/rafizul896/portfolio-dashboard)
+
+---
+
+
+---
+
 ## 🚀 Features
 
 - 🔐 JWT-based authentication (login, protected routes)
